@@ -16,6 +16,11 @@ function App() {
   title:"",
   author:""
  })
+ const[radomquote1,setrandomQuote1]=useState<Quote>({
+  id:0,
+  title:"",
+  author:""
+ })
 
  useEffect(()=>{
   fetch('http://localhost:4000/quotes')
@@ -29,6 +34,11 @@ function App() {
   .then(quoteFromServer=>setrandomQuote(quoteFromServer))
  },[])
 
+ useEffect(()=>{
+  fetch('http://localhost:4000/random')
+  .then(resp=>resp.json())
+  .then(quoteFromServer=>setrandomQuote1(quoteFromServer))
+ },[])
 
   return (
     <div className="App">
@@ -37,6 +47,12 @@ function App() {
           Random Quote:
          <h2> "{radomquote.title}"</h2>  
          <h3>Author: {radomquote.author}</h3>
+      </li>
+
+      <li className='quote random'>
+          Random Quote 2:
+         <h2> "{radomquote1.title}"</h2>  
+         <h3>Author: {radomquote1.author}</h3>
       </li>
 
       {quotes.map(quote=>(
