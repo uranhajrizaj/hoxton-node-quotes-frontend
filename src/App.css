@@ -35,3 +35,11 @@
   background-color: aquamarine;
   
 }
+.form{
+  display:grid;
+  place-content: center;
+  gap:10px;
+  border:1px solid gray;
+  padding:1rem;
+  width:45vw
+}

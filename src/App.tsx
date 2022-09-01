@@ -1,29 +1,34 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 
-type Quote={
+type QuoteWithAuthor={
   id:number,
   title:string,
-  author:string
+  authorID:number,
+  author:{
+    id:number,
+    name:string,
+    img:string,
+  }
 }
 
 
-
 function App() {
- const[quotes,setQuotes]=useState<Quote[]>([])
- const[radomquote,setrandomQuote]=useState<Quote>({
+ const[quotes,setQuotes]=useState<QuoteWithAuthor[]>([])
+ const[radomquote,setrandomQuote]=useState<QuoteWithAuthor>({
   id:0,
   title:"",
-  author:""
+  authorID:0,
+  author:{
+    id:0,
+    name:"",
+    img:"",
+  }
  })
- const[radomquote1,setrandomQuote1]=useState<Quote>({
-  id:0,
-  title:"",
-  author:""
- })
+
 
  useEffect(()=>{
-  fetch('http://localhost:4000/quotes')
+  fetch('http://localhost:4000/quotes&author')
   .then(resp=>resp.json())
   .then(quotesFromServer=>setQuotes(quotesFromServer))
  },[])
@@ -34,31 +39,21 @@ function App() {
   .then(quoteFromServer=>setrandomQuote(quoteFromServer))
  },[])
 
- useEffect(()=>{
-  fetch('http://localhost:4000/random')
-  .then(resp=>resp.json())
-  .then(quoteFromServer=>setrandomQuote1(quoteFromServer))
- },[])
 
   return (
     <div className="App">
+     
       <ul className='quote_list'>
       <li className='quote random'>
           Random Quote:
          <h2> "{radomquote.title}"</h2>  
-         <h3>Author: {radomquote.author}</h3>
-      </li>
-
-      <li className='quote random'>
-          Random Quote 2:
-         <h2> "{radomquote1.title}"</h2>  
-         <h3>Author: {radomquote1.author}</h3>
+         <h3>Author: {radomquote.author.name}</h3>
       </li>
 
       {quotes.map(quote=>(
       <li className='quote'>
        <h2> "{quote.title}"</h2>  
-       <h3>Author: {quote.author}</h3>
+       <h3>Author: {quote.author.name}</h3>
       </li>
       )  
       )}
